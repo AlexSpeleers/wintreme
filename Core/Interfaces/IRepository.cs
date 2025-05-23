@@ -14,4 +14,5 @@ public interface IRepository<T> where T : BaseEntity
     public void Update(T entity);
     public void Remove(T entity);
     public bool Exists(int id);
+    public Task<int> CountAsync(ISpecification<T> spec);
 }

@@ -21,6 +21,12 @@ public class Repository<T>(StoreContext _storeContext) : IRepository<T> where T 
         _storeContext.Entry(entity).State = EntityState.Modified;
     }
 
+    public async Task<int> CountAsync(ISpecification<T> spec)
+    {
+        IQueryable<T> query = _storeContext.Set<T>().AsQueryable();
+        query = spec.ApplyCriteria(query);
+        return await query.CountAsync();
+    }
 
     public async Task<TResult?> GetEntityWithSpec<TResult>(ISpecification<T, TResult> spec) => await ApplySpecification(spec).FirstOrDefaultAsync();
 
