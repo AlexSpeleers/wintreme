@@ -1,4 +1,4 @@
-using Core.Repositories;
+using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +11,7 @@ builder.Services.AddDbContext<StoreContext>(options => {
 
 builder.Services.AddControllers();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 var app = builder.Build();
 

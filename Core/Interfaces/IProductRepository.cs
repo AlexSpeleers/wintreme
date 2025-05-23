@@ -1,6 +1,6 @@
 ﻿using Core.Entities;
 
-namespace Core.Repositories;
+namespace Core.Interfaces;
 public interface IProductRepository
 {
     public Task<IReadOnlyList<Product>> GetProductsAsync(string? brand, string? type, string? sort);

@@ -2,7 +2,7 @@
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace Core.Repositories;
+namespace Core.Interfaces;
 
 public class ProductRepository(StoreContext storeContext) : IProductRepository
 {
