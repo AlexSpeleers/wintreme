@@ -3,7 +3,13 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "plugins": [
+      {
+        "name": "@angular/language-service"
+      }
+    ],
     "outDir": "./dist/out-tsc",
+    "baseUrl": "src",
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
@@ -23,5 +29,7 @@
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
-  }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }
