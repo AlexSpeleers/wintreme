@@ -1,8 +1,8 @@
-/* You can add global styles to this file, and also import other style files */
 @use "@angular/material" as mat;
-@use "tailwindcss";
+@import "tailwindcss/index.css";
 
-@include mat.core();
+@include mat.elevation-classes();
+@include mat.app-background();
 $customTheme: mat.define-theme();
 
 .custom-theme {
@@ -38,4 +38,12 @@ body {
 
 .container {
   @apply mx-auto max-w-screen-2xl;
+}
+
+.text-primary {
+  color: #7d00fa;
+}
+
+button.match-input-height {
+  height: var(--mat-form-field-container-height) !important;
 }
