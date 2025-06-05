@@ -35,6 +35,10 @@ export class ShopService {
     });
   }
 
+  GetProduct(id: number): Observable<Product> {
+    return this.http.get<Product>(this.baseUrl + 'products/' + id);
+  }
+
   GetBrands(): Subscription | null {
     if (this.brands.length > 0) return null;
     return this.http.get<string[]>(this.baseUrl + 'products/brands').subscribe({
