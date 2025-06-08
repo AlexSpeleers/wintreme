@@ -1,5 +1,5 @@
 @use "@angular/material" as mat;
-@import "tailwindcss/index.css";
+@use "tailwindcss";
 
 @include mat.elevation-classes();
 @include mat.app-background();
@@ -7,7 +7,6 @@ $customTheme: mat.define-theme();
 
 .custom-theme {
   @include mat.all-component-themes($customTheme);
-
   .mdc-button,
   .mdc-raised-button,
   .mdc-stroked-button,
@@ -23,6 +22,26 @@ $customTheme: mat.define-theme();
       disabled-state-background-color: rgba(18, 61, 201, 0.479),
     )
   );
+
+  .snack-error {
+    @include mat.snack-bar-overrides(
+      (
+        container-color: red,
+        button-color: white,
+        supporting-text-color: white,
+      )
+    );
+  }
+
+  .snack-success {
+    @include mat.snack-bar-overrides(
+      (
+        container-color: green,
+        button-color: white,
+        supporting-text-color: white,
+      )
+    );
+  }
 }
 
 html,
