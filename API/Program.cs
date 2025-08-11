@@ -23,7 +23,7 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(config => {
     return ConnectionMultiplexer.Connect(configuration);
 });
 builder.Services.AddSingleton<ICartService, CartService>();
-
+    
 var app = builder.Build();
 
 

@@ -40,7 +40,7 @@ export class ShopComponent implements OnInit {
   private dialogService = inject(MatDialog);
   protected products?: Pagination<Product>;
   protected hidePageSize = true;
-  sortOptions = [
+  protected sortOptions = [
     { name: 'Alphabetical', value: 'name' },
     { name: 'Price: Low-high', value: 'priceAsc' },
     { name: 'Price: High-low', value: 'priceDesc' },

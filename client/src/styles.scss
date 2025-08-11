@@ -1,25 +1,16 @@
 @use "@angular/material" as mat;
-@use "tailwindcss";
-
-@include mat.elevation-classes();
-@include mat.app-background();
-$customTheme: mat.define-theme();
-
-.custom-theme {
-  @include mat.all-component-themes($customTheme);
-  .mdc-button,
-  .mdc-raised-button,
-  .mdc-stroked-button,
-  .mdc-flat-button {
-    @apply rounded-md;
-  }
-}
 
 :root {
   @include mat.badge-overrides(
     (
       background-color: #3a4cb3,
-      disabled-state-background-color: rgba(18, 61, 201, 0.479),
+    )
+  );
+
+  @include mat.button-overrides(
+    (
+      filled-container-shape: "6px",
+      outlined-container-shape: "6px",
     )
   );
 
@@ -44,26 +35,25 @@ $customTheme: mat.define-theme();
   }
 }
 
+header {
+  color: black;
+}
 html,
 body {
   margin: 0;
   padding: 0;
   height: 100%;
 }
-body {
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-}
 
-.container {
-  @apply mx-auto max-w-screen-2xl;
+body {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 .text-primary {
   color: #7d00fa;
 }
 
-button.match-input-height {
+.match-input-height {
   height: var(--mat-form-field-container-height) !important;
 }
 

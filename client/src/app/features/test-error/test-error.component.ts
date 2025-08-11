@@ -14,6 +14,7 @@ export class TestErrorComponent {
   validationErrors?: string[];
 
   Get404Error() {
+    this.validationErrors = undefined;
     this.http.get(this.baseUrl + 'bug/notfound').subscribe({
       next: (response) => console.log(response),
       error: (error) => console.log(error),
@@ -21,6 +22,7 @@ export class TestErrorComponent {
   }
 
   Get400Error() {
+    this.validationErrors = undefined;
     this.http.get(this.baseUrl + 'bug/badrequest').subscribe({
       next: (response) => console.log(response),
       error: (error) => console.log(error),
@@ -28,6 +30,7 @@ export class TestErrorComponent {
   }
 
   Get401Error() {
+    this.validationErrors = undefined;
     this.http.get(this.baseUrl + 'bug/unauthorized').subscribe({
       next: (response) => console.log(response),
       error: (error) => console.log(error),
@@ -35,6 +38,7 @@ export class TestErrorComponent {
   }
 
   Get500Error() {
+    this.validationErrors = undefined;
     this.http.get(this.baseUrl + 'bug/internalerror').subscribe({
       next: (response) => console.log(response),
       error: (error) => console.log(error),

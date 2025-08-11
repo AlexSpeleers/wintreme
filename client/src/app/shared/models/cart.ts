@@ -15,6 +15,6 @@ export type CartItem = {
 };
 
 export class Cart implements CartType {
-  id = nanoid();
+  id: string = nanoid();
   items: CartItem[] = [];
 }

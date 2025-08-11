@@ -14,7 +14,7 @@ export class ShopService {
   types: string[] = [];
   brands: string[] = [];
 
-  GetProducts(shopParams: ShopParams): Observable<Pagination<Product>> {
+  public GetProducts(shopParams: ShopParams): Observable<Pagination<Product>> {
     var params = new HttpParams();
 
     if (shopParams.brands.length > 0)
@@ -29,24 +29,23 @@ export class ShopService {
 
     params = params.append('pageSize', shopParams.pageSize);
     params = params.append('pageIndex', shopParams.pageNumber);
-
     return this.http.get<Pagination<Product>>(this.baseUrl + 'products', {
       params,
     });
   }
 
-  GetProduct(id: number): Observable<Product> {
+  public GetProduct(id: number): Observable<Product> {
     return this.http.get<Product>(this.baseUrl + 'products/' + id);
   }
 
-  GetBrands(): Subscription | null {
+  public GetBrands(): Subscription | null {
     if (this.brands.length > 0) return null;
     return this.http.get<string[]>(this.baseUrl + 'products/brands').subscribe({
       next: (response) => (this.brands = response),
     });
   }
 
-  GetTypes(): Subscription | null {
+  public GetTypes(): Subscription | null {
     if (this.types.length > 0) return null;
     return this.http.get<string[]>(this.baseUrl + 'products/types').subscribe({
       next: (response) => (this.types = response),

@@ -9,31 +9,31 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const snackbar = inject(SnackbarService);
 
   return next(req).pipe(
-    catchError((error: HttpErrorResponse) => {
-      if (error.status === 400) {
-        if (error.error.errors) {
-          const modelStateErrors = [];
-          for (const key in error.error.errors) {
-            if (error.error.errors[key]) {
-              modelStateErrors.push(error.error.errors[key]);
+    catchError((errorResponse: HttpErrorResponse) => {
+      if (errorResponse.status === 400) {
+        if (errorResponse.error.errors) {
+          const modelStateErrors: string[] | undefined = [];
+          for (const key in errorResponse.error.errors) {
+            if (errorResponse.error.errors[key]) {
+              modelStateErrors.push(errorResponse.error.errors[key]);
             }
           }
           throw modelStateErrors.flat();
-        } else snackbar.error(error.error.title || error.error);
+        } else snackbar.error(errorResponse.error.title || errorResponse.error);
       }
-      if (error.status === 401) {
-        snackbar.error(error.error.title || error.error);
+      if (errorResponse.status === 401) {
+        snackbar.error(errorResponse.error.title || errorResponse.error);
       }
-      if (error.status === 404) {
+      if (errorResponse.status === 404) {
         router.navigateByUrl('/not-found');
       }
-      if (error.status === 500) {
+      if (errorResponse.status === 500) {
         const navigationExtras: NavigationExtras = {
-          state: { error: error.error },
+          state: { error: errorResponse.error },
         };
         router.navigateByUrl('/server-error', navigationExtras);
       }
-      return throwError(() => error);
+      return throwError(() => errorResponse);
     })
   );
 };

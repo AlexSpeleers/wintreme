@@ -13,18 +13,19 @@ public class CartController(ICartService cartService) : BaseApiController
     }
 
     [HttpPost]
-    public async Task<ActionResult<ShoppingCart>> UpdateCart(ShoppingCart cart) {
+    public async Task<ActionResult<ShoppingCart>> UpdateCart(ShoppingCart cart)
+    {
         var updatedCart = await cartService.SetCartAsync(cart);
         if (updatedCart == null)
-            return BadRequest("Problem with cart");
+            return BadRequest("Problem with cart.");
         return updatedCart;
     }
 
     [HttpDelete]
     public async Task<ActionResult> DeleteCart(string id)
     {
-       var result = await cartService.DeleteCartAsync(id);
-        if (!result) return BadRequest("Problem deleting cart");
+        var result = await cartService.DeleteCartAsync(id);
+        if (!result) return BadRequest("Problem deleting cart.");
         return Ok();
     }
 }

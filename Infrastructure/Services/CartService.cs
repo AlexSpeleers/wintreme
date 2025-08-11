@@ -8,10 +8,7 @@ namespace Infrastructure.Services;
 public class CartService(IConnectionMultiplexer redis) : ICartService
 {
     private readonly IDatabase _database = redis.GetDatabase();
-    public async Task<bool> DeleteCartAsync(string key)
-    {
-        return await _database.KeyDeleteAsync(key);
-    }
+    public async Task<bool> DeleteCartAsync(string key) => await _database.KeyDeleteAsync(key);
 
     public async Task<ShoppingCart?> GetCartAsync(string key)
     {

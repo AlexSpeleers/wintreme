@@ -1,8 +1,8 @@
-@if(products){
+@if(products && products.count > 0) {
 <div class="flex flex-col gap-3">
-  <div class="flex justify-between gap-3">
+  <div class="flex justify-between">
     <mat-paginator
-      class="bg-white!"
+      class="bg-white"
       (page)="HandlePageEvent($event)"
       [length]="products.count"
       [pageSize]="shopParams.pageSize"
@@ -10,19 +10,18 @@
       [pageSizeOptions]="pageSizeOptions"
       [pageIndex]="shopParams.pageNumber - 1"
       [hidePageSize]="hidePageSize"
-      aria-label="select page"
+      aria-label="Select page"
     >
     </mat-paginator>
 
     <form
       #searchForm="ngForm"
-      appearance="outline"
-      (ngsubmit)="OpenFiltersDialog()"
+      (ngSubmit)="OnSearchChange()"
       class="realtive flex items-center w-full max-w-md mx-4"
     >
       <input
         type="search"
-        class="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-lg"
+        class="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:border-blue-500 focus:ring-blue-500"
         placeholder="Search"
         name="search"
         [(ngModel)]="shopParams.search"
@@ -30,13 +29,13 @@
       <button
         mat-icon-button
         type="submit"
-        class="absolute inset-y-0 right-8 top-2 flex items-center pl-3"
+        class="-translate-x-10 text-gray-500"
       >
-        <mat-icon>search</mat-icon>>
+        <mat-icon>search</mat-icon>
       </button>
     </form>
 
-    <div class="flex gap-3 items-center">
+    <div class="flex gap-3">
       <button
         class="match-input-height"
         mat-stroked-button
@@ -48,7 +47,7 @@
       <button
         class="match-input-height"
         mat-stroked-button
-        [mat-menu-trigger-for]="sortMenu"
+        [matMenuTriggerFor]="sortMenu"
       >
         <mat-icon>swap_vert</mat-icon>
         Sort

@@ -1,8 +1,8 @@
 export class ShopParams {
-  brands: string[] = [];
-  types: string[] = [];
-  sort = 'name';
-  pageNumber = 1;
-  pageSize = 10;
-  search = '';
+  public brands: string[] = [];
+  public types: string[] = [];
+  public sort = 'name';
+  public pageNumber = 1;
+  public pageSize = 10;
+  public search = '';
 }
