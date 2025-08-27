@@ -7,6 +7,7 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { Cart, CartItem } from 'app/shared/models/cart';
+import { DeliveryMethod } from 'app/shared/models/deliveryMethod';
 import { Product } from 'app/shared/models/product';
 import { environment } from 'environments/environment';
 import { map, Observable } from 'rxjs';
@@ -22,14 +23,17 @@ export class CartService {
     return this.cart()?.items.reduce((sum, item) => sum + item.quantity, 0);
   });
 
+  public selectedDelivery = signal<DeliveryMethod | null>(null);
+
   totals = computed(() => {
     const cart = this.cart();
+    const delivery = this.selectedDelivery();
     if (!cart) return null;
     const subtotal = cart.items.reduce(
       (sum, item) => sum + item.price * item.quantity,
       0
     );
-    const shipping = 0;
+    const shipping = delivery ? delivery.price : 0;
     const discount = 0;
     return {
       subtotal,
@@ -95,7 +99,7 @@ export class CartService {
     }
   }
 
-  private DeleteCart() {
+  public DeleteCart() {
     this.http.delete(this.baseUrl + 'cart?id=' + this.cart()?.id).subscribe({
       next: () => {
         localStorage.removeItem('cart_id');
