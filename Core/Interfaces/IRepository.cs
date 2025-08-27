@@ -9,7 +9,6 @@ public interface IRepository<T> where T : BaseEntity
     public Task<IReadOnlyList<T>> GetAllAsync(ISpecification<T> spec);
     public Task<TResult?> GetEntityWithSpec<TResult>(ISpecification<T, TResult> spec);
     public Task<IReadOnlyList<TResult>> GetAllAsync<TResult>(ISpecification<T, TResult> spec);
-    public Task<bool> SaveAllAsync();
     public void Add(T entity);
     public void Update(T entity);
     public void Remove(T entity);

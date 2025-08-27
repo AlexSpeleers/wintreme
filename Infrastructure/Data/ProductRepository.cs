@@ -17,7 +17,7 @@ public class ProductRepository(StoreContext storeContext) : IProductRepository
             query = query.Where(x => x.Brand == brand);
         if (!string.IsNullOrEmpty(type))
             query = query.Where(x => x.Type == type);
-        
+
         query = sort switch
         {
             "priceAsc" => query.OrderBy(x => x.Price),

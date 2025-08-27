@@ -9,15 +9,18 @@ using StackExchange.Redis;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<StoreContext>(options => {
+builder.Services.AddDbContext<StoreContext>(options =>
+{
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
 builder.Services.AddControllers();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddCors();
-builder.Services.AddSingleton<IConnectionMultiplexer>(config => {
+builder.Services.AddSingleton<IConnectionMultiplexer>(config =>
+{
     var connectionString = builder.Configuration.GetConnectionString("Redis")
         ?? throw new Exception("Cannot get redis connection string");
     var configuration = ConfigurationOptions.Parse(connectionString, true);
@@ -26,9 +29,9 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(config => {
 builder.Services.AddSingleton<ICartService, CartService>();
 builder.Services.AddAuthorization();
 builder.Services.AddIdentityApiEndpoints<AppUser>().AddEntityFrameworkStores<StoreContext>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 var app = builder.Build();
-
 
 app.UseMiddleware<ExceptionMiddleware>();
 app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials()
@@ -48,7 +51,7 @@ try
 catch (Exception ex)
 {
     Console.WriteLine(ex);
-	throw;
+    throw;
 }
 
 app.Run();
