@@ -25,6 +25,8 @@ import { CheckoutDeliveryComponent } from './checkout-delivery/checkout-delivery
 import { CheckoutReviewComponent } from './checkout-review/checkout-review.component';
 import { CartService } from 'app/core/services/cart.service';
 import { CurrencyPipe } from '@angular/common';
+import { OrderToCreate, ShippingAddress } from 'app/shared/models/order';
+import { OrderService } from 'app/core/services/order.service';
 
 @Component({
   selector: 'app-checkout',
@@ -46,6 +48,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   private stripeService = inject(StripeService);
   private snackbarService = inject(SnackbarService);
   private accountService = inject(AccountService);
+  private orderService = inject(OrderService);
   protected cartService = inject(CartService);
   private router = inject(Router);
   private addressElement?: StripeAddressElement;
@@ -118,7 +121,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   protected async OnStepChange(event: StepperSelectionEvent) {
     if (event.selectedIndex === 1) {
       if (this.saveAddress) {
-        const address = await this.GetAddressFromStripeAddress();
+        const address = (await this.GetAddressFromStripeAddress()) as Address;
         address && firstValueFrom(this.accountService.UpdateAddress(address));
       }
     }
@@ -129,11 +132,14 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     }
   }
 
-  private async GetAddressFromStripeAddress(): Promise<Address | null> {
+  private async GetAddressFromStripeAddress(): Promise<
+    Address | ShippingAddress | null
+  > {
     const result = await this.addressElement?.getValue();
     const address = result?.value.address;
     if (address)
       return {
+        name: result.value.name,
         line1: address.line1,
         line2: address.line2 || undefined,
         city: address.city,
@@ -151,12 +157,24 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         const result = await this.stripeService.ConfirmPayment(
           this.confirmationToken
         );
-        if (result.error) {
+
+        if (result.paymentIntent?.status === 'succeeded') {
+          const order = await this.CreateOrderModel();
+          const orderResult = await firstValueFrom(
+            this.orderService.CreateOrder(order)
+          );
+          if (orderResult) {
+            this.orderService.orderComplete = true;
+            this.cartService.DeleteCart();
+            this.cartService.selectedDelivery.set(null);
+            this.router.navigateByUrl('/checkout/success');
+          } else {
+            throw new Error('Order creation failed.');
+          }
+        } else if (result.error) {
           throw new Error(result.error.message);
         } else {
-          this.cartService.DeleteCart();
-          this.cartService.selectedDelivery.set(null);
-          this.router.navigateByUrl('/checkout/success');
+          throw new Error('Something went wrong.');
         }
       }
     } catch (error: any) {
@@ -165,6 +183,27 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     } finally {
       this.loading = false;
     }
+  }
+
+  private async CreateOrderModel(): Promise<OrderToCreate> {
+    const cart = this.cartService.cart();
+    const shippingAddress =
+      (await this.GetAddressFromStripeAddress()) as ShippingAddress;
+    const card = this.confirmationToken?.payment_method_preview.card;
+    if (!cart?.id || !cart?.deliveryMethodId || !card || !shippingAddress) {
+      throw new Error('Problem wiwth creating order.');
+    }
+    return {
+      cartId: cart.id,
+      paymentSummary: {
+        last4: +card.last4,
+        brand: card.brand,
+        expMonth: card.exp_month,
+        expYear: card.exp_year,
+      },
+      deliveryMethodId: cart.deliveryMethodId,
+      shippingAddress,
+    };
   }
 
   protected OnSaveAddressCheckbox(event: MatCheckboxChange) {
