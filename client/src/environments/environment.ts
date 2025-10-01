@@ -3,5 +3,6 @@ export const environment = {
   apiUrl: 'api/',
   hubUrl: 'hub/notifications',
   stripePublicKey:
-    'pk_test_51RwqK9J9rdiVoG7uAmI3n04bEIsPuOD5qAwvxuLcp8VkSDXtekaAKIBYcBssmudKh1qyFYXfoEzoavmZ8Oal59PB00wJeEMQxg',
+    'pk_live_51RwqJyR9WcmHDZidiPWnWF4cGTSN0QLEUHLlDlot2LgcZETXMAfZYYip4pBVjxj7QdtXmr0LGTcpkvQdEswWovv300URXG7kXj',
 };
+//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

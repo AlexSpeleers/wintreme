@@ -2,7 +2,7 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { OrderService } from 'app/core/services/order.service';
 import { Order } from 'app/shared/models/order';
 import { AddressPipe } from 'app/shared/pipes/address-pipe';
@@ -17,7 +17,6 @@ import { PaymentCardPipe } from 'app/shared/pipes/payment-card-pipe';
     CurrencyPipe,
     AddressPipe,
     PaymentCardPipe,
-    RouterLink,
   ],
   templateUrl: './order-detailed.component.html',
   styleUrl: './order-detailed.component.scss',
