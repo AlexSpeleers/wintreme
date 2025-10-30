@@ -58,6 +58,11 @@ export class ShopComponent implements OnInit {
     this.GetProducts();
   }
 
+  ResetFilters() {
+    this.shopParams = new ShopParams();
+    this.GetProducts();
+  }
+
   GetProducts() {
     this.shopService.GetProducts(this.shopParams).subscribe({
       next: (response) => (this.products = response),

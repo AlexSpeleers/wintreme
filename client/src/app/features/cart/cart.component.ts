@@ -3,6 +3,7 @@ import { CartService } from 'app/core/services/cart.service';
 import { CartItemComponent } from './cart-item/cart-item.component';
 import { OrderSummaryComponent } from 'app/shared/components/order-summary/order-summary.component';
 import { EmptyStateComponent } from 'app/shared/components/empty-state/empty-state.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
@@ -11,5 +12,10 @@ import { EmptyStateComponent } from 'app/shared/components/empty-state/empty-sta
   styleUrl: './cart.component.scss',
 })
 export class CartComponent {
+  private router = inject(Router);
   cartSevice = inject(CartService);
+
+  protected OnAction() {
+    this.router.navigateByUrl('/shop');
+  }
 }
