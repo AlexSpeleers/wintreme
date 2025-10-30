@@ -20,8 +20,8 @@ jobs:
 
       - name: Set up node.js
         uses: actions/setup-node@v3
-        with: 
-        node-version:'20'
+        with:
+          node-version: 20
 
       - name: Instal Angular client
         run: npm install -g @angular/cli@20

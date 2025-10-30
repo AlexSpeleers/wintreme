@@ -17,6 +17,7 @@ import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { ShopParams } from 'app/shared/models/shopParams';
 import { Pagination } from 'app/shared/models/pagination';
 import { FormsModule } from '@angular/forms';
+import { EmptyStateComponent } from 'app/shared/components/empty-state/empty-state.component';
 
 @Component({
   selector: 'app-shop',
@@ -33,6 +34,7 @@ import { FormsModule } from '@angular/forms';
     MatMenuTrigger,
     MatPaginatorModule,
     FormsModule,
+    EmptyStateComponent,
   ],
 })
 export class ShopComponent implements OnInit {
